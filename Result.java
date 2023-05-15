@@ -251,6 +251,14 @@ public class Result {
 			list();
 		}
 		public void exit() {
+			if(conn!=null) {
+				try {
+					conn.close();
+				}catch (SQLException e) {
+					
+				}
+			}
+			System.out.println("** 게시판 종료 **");
 			System.exit(0);
 		}
 	public static void main(String[] args) {
