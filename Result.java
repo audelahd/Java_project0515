@@ -212,6 +212,22 @@ public class Result {
 			}
 			list();
 		}
+		
+		public void delete (Board board) {
+			try {
+				String sql = "DELETE FROM boards WHERE bno = ?";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, board.getBno());
+				pstmt.executeUpdate();
+				pstmt.close();
+				
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				exit();
+			}
+			list();
+		}
 		public void clear() {
 			System.out.println(" *** clear() 메소드 실행됨");
 			list();
