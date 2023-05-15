@@ -229,7 +229,25 @@ public class Result {
 			list();
 		}
 		public void clear() {
-			System.out.println(" *** clear() 메소드 실행됨");
+			System.out.println("[게시글 전체 삭제]");
+			System.out.println("----------------------------------------------------");
+			System.out.println("보조 메뉴 : 1. OK | 2. Cancel");
+			System.out.print("메뉴 선택 : ");
+			String menuNo = scanner.nextLine();
+			
+			if(menuNo.equals("1")) {
+				try {
+					String sql = "TRUNCATE TABLE boards";
+					PreparedStatement pstmt = conn.prepareStatement(sql);
+					pstmt.executeUpdate();
+					pstmt.close();
+					
+				}catch (Exception e) {
+					e.printStackTrace();
+					exit();
+				}
+			
+			}
 			list();
 		}
 		public void exit() {
