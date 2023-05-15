@@ -88,7 +88,40 @@ public class Result {
 		}
 		
 		public void create() {
-			System.out.println(" *** create() 메소드 실행됨");
+			Board board = new Board();
+			System.out.println("[새 게시물 입력]");
+			System.out.print("제목 : ");
+			board.setBtitle(scanner.nextLine());
+			System.out.print("내용 : ");
+			board.setBcontent(scanner.nextLine());
+			System.out.print("작성자 : ");
+			board.setBwriter(scanner.nextLine());
+			
+			
+			System.out.println("----------------------------------------------------");
+			System.out.println("보조 메뉴 : 1. OK | 2. Cancel");
+			System.out.print("메뉴 선택 : ");
+			String menuNo = scanner.nextLine();
+			
+			if(menuNo.equals("1")) {
+				try {
+					
+					String sql = ""+
+					"INSERT INTO boards (bno, btitle, bcontent, bwriter, bdate) "+
+	"VALUES (SEQ_BNO.NEXTVAL, ?, ?, ?, SYSDATE)";
+					
+					PreparedStatement pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, board.getBtitle());
+					pstmt.setString(2, board.getBcontent());
+					pstmt.setString(3, board.getBwriter());
+					pstmt.executeUpdate();
+					pstmt.close();
+					
+				}catch (Exception e) {
+					e.printStackTrace();
+					exit();
+				}
+			}
 			list();
 		}
 		public void read() {
