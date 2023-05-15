@@ -132,7 +132,7 @@ public class Result {
 			try {
 				String sql = ""+
 			"SELECT bno, btitle, bcontent, bwriter, bdate "+
-						"FROM boards "+ "WHERE bno=?";
+						" FROM boards "+ " WHERE bno=?";
 				
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1,bno);
@@ -153,14 +153,62 @@ public class Result {
 					System.out.println("내용 : "+board.getBcontent());
 					System.out.println("작성자 : "+board.getBwriter());
 					System.out.println("날짜 : "+board.getBdate());
-					System.out.println("#############");
-				}
-				rs.close();
-				pstmt.close();
+					System.out.println("----------------------------------------------------");
+					System.out.println("보조 메뉴 : 1. Update | 2. Delete | 3. List");
+					System.out.print("메뉴 선택 : ");
+					String menuNo = scanner.nextLine();
+					System.out.println();
+					
+					if(menuNo.equals("1")) {
+						update(board);
+					}
+					
+					//else if(menuNo.equals("2")) {
+						//delete(board);
+					//}
 				
+			}
 			}catch (Exception e) {
-				e.printStackTrace();
-				exit();
+					e.printStackTrace();
+					exit();
+				}
+			
+			list();
+		}
+
+		public void update(Board board) {
+			System.out.println("[수정 내용 입력]");
+			System.out.print("제목 : ");
+			board.setBtitle(scanner.nextLine());
+			System.out.print("내용 : ");
+			board.setBcontent(scanner.nextLine());
+			System.out.print("작성자 : ");
+			board.setBwriter(scanner.nextLine());
+			
+			System.out.println("----------------------------------------------------");
+			System.out.println("보조 메뉴 : 1. OK | 2. Cancel");
+			System.out.print("메뉴 선택 : ");
+			String menuNo = scanner.nextLine();
+			
+			if(menuNo.equals("1")) {
+				try {
+					
+					String sql = ""+
+					"UPDATE boards SET btitle=?, bcontent=?, bwriter=? "+
+	" WHERE bno=?";
+					
+					PreparedStatement pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, board.getBtitle());
+					pstmt.setString(2, board.getBcontent());
+					pstmt.setString(3, board.getBwriter());
+					pstmt.setInt(4, board.getBno());
+					pstmt.executeUpdate();
+					pstmt.close();
+					
+				}catch (Exception e) {
+					e.printStackTrace();
+					exit();
+				}
 			}
 			list();
 		}
